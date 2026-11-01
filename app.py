@@ -38,17 +38,8 @@ if st.button("🚀 Get Next Candle Signal", type="primary", use_container_width=
                 # Configure Gemini API
                 genai.configure(api_key=gemini_api_key)
                 
-                # Smart model fallback selector to prevent future 404 errors permanently
-                active_model = 'gemini-2.5-flash'
-                try:
-                    models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
-                    flash_models = [m for m in models if 'flash' in m]
-                    if flash_models:
-                        active_model = flash_models[0].replace('models/', '')
-                except Exception:
-                    pass
-
-                model = genai.GenerativeModel(active_model)
+                # Fixed active model to prevent errors
+                model = genai.GenerativeModel('gemini-3.8-flash')
                 
                 # Real-time technical market metrics calculation
                 rsi_val = np.random.uniform(25, 75)
